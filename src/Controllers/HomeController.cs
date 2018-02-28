@@ -21,10 +21,6 @@ namespace Aiursoft.Colossus.Controllers
         public async Task<IActionResult> Upload()
         {
             var file = Request.Form.Files.First();
-            var fileStream = new FileStream("file.dat", FileMode.Create);
-            await file.CopyToAsync(fileStream);
-            fileStream.Close();
-
             await Pylon.Services.StorageService.SaveToOSS(file,Startup.ColossusPublicBucketId);
             return Json(new
             {
