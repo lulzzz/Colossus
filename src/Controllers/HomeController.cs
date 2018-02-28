@@ -24,7 +24,7 @@ namespace Aiursoft.Colossus.Controllers
             await Pylon.Services.StorageService.SaveToOSS(file,Startup.ColossusPublicBucketId);
             return Json(new
             {
-                size = file.Length
+                message = "Uploaded!"
             });
         }
 
