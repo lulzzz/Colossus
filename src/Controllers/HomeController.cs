@@ -5,9 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Aiursoft.Colossus.Models;
+using Aiursoft.Pylon.Attributes;
+using System.IO;
 
 namespace Aiursoft.Colossus.Controllers
 {
+    [AiurRequireHttps]
     public class HomeController : Controller
     {
         public IActionResult Index()
@@ -15,9 +18,11 @@ namespace Aiursoft.Colossus.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Upload()
+        public async Task<IActionResult> Upload()
         {
             var file = Request.Form.Files.First();
+            var fileStream = new FileStream("file.dat", FileMode.Create);
+            await file.CopyToAsync(fileStream);
             return Json(new
             {
                 size = file.Length

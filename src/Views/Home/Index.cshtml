@@ -15,8 +15,8 @@
     <div class="col-md-12">
         <h2>Upload your file here to share it with others!</h2>
         <form id="fileform" method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Upload">
-            <input type="file" name="file" class="dropify" data-max-file-size="3000M" />
-            <p class="help margin-top-10">Only 3000M max.</p>
+            <input type="file" name="file" class="dropify" data-max-file-size="1000M" />
+            <p class="help margin-top-10">Only 1000MB max.</p>
             <div class="col-xs-12 mt-3 mb-3">
                 <input type="button" class="btn btn-primary" value="Upload">
             </div>
@@ -27,12 +27,6 @@
 <progress></progress>
 @section js{
     <script>
-        $(':file').on('change', function () {
-            var file = this.files[0];
-            if (file.size > 1024 * 1024 * 1024 * 5) {
-                alert('max upload size is 5Gb')
-            }
-        });
         $(':button').on('click', function () {
             $.ajax({
                 url: '/Home/Upload',
@@ -56,22 +50,11 @@
                     }
                     return myXhr;
                 },
+                success: function (value) {
+                    alert(value);
+
+                }
             });
         });
-                //$(":button").click(function () {
-                //    var filename = $(":file").val();
-
-                //    $.ajax({
-                //        type: "POST",
-                //        url: "/Home/Upload",
-                //        enctype: 'multipart/form-data',
-                //        data: {
-                //            file: filename
-                //        },
-                //        success: function () {
-                //            alert("Data Uploaded: ");
-                //        }
-                //    });
-                //});
     </script>
 }
