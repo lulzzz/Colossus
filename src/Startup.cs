@@ -12,6 +12,7 @@ using Aiursoft.Colossus.Data;
 using Aiursoft.Colossus.Models;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Aiursoft.Pylon;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Aiursoft.Colossus
 {
@@ -32,6 +33,11 @@ namespace Aiursoft.Colossus
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<FormOptions>(x =>
+            {
+                x.ValueLengthLimit = int.MaxValue;
+                x.MultipartBodyLengthLimit = int.MaxValue;
+            });
             services.AddDbContext<ColossusDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
 
