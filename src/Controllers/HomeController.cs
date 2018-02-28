@@ -14,6 +14,15 @@ namespace Aiursoft.Colossus.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult Upload()
+        {
+            var file = Request.Form.Files.First();
+            return Json(new
+            {
+                size = file.Length
+            });
+        }
 
         public IActionResult About()
         {

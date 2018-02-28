@@ -17,12 +17,18 @@ namespace Aiursoft.Colossus
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public IConfiguration Configuration { get; }
+        public bool IsDevelopment { get; set; }
+
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            IsDevelopment = env.IsDevelopment();
+            if (IsDevelopment)
+            {
+                Values.ForceRequestHttps = false;
+            }
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {

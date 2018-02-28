@@ -2,57 +2,76 @@
     ViewData["Title"] = "Home";
 }
 <div class="jumbotron">
-    <h3>Welcome to Aiursoft Developer Center</h3>
+    <h3>Welcome to Aiursoft Colossus</h3>
     <p>Please sign in to access your dashboard.</p>
     <div class="btn-group" role="group">
         <a class="btn btn-success btn-lg" asp-controller="Apps" asp-action="Index" role="button">
             <i class="fa fa-pencil"></i>
-            Go to Dashboard
+            View my files
         </a>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-6">
-        <h2>Lorem ipsum dolor sit amet</h2>
-        <p>
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-        </p>
+    <div class="col-md-12">
+        <h2>Upload your file here to share it with others!</h2>
+        <form id="fileform" method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Upload">
+            <input type="file" name="file" class="dropify" data-max-file-size="3000M" />
+            <p class="help margin-top-10">Only 3000M max.</p>
+            <div class="col-xs-12 mt-3 mb-3">
+                <input type="button" class="btn btn-primary" value="Upload">
+            </div>
+        </form>
     </div>
-    <div class="col-md-6">
-        <h2>
-            Lorem ipsum dolor sit amet
-        </h2>
-        <p>
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-        </p>
-    </div>
-    <div class="col-md-6">
-        <h2>
-            Lorem ipsum dolor sit amet
-        </h2>
-        <p>
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-        </p>
-    </div>
-    <div class="col-md-6">
-        <h2>
-            Lorem ipsum dolor sit amet
-        </h2>
-        <p>
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-        </p>
-        <p>
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-        </p>
-    </div>
-
 </div>
+
+<progress></progress>
+@section js{
+    <script>
+        $(':file').on('change', function () {
+            var file = this.files[0];
+            if (file.size > 1024 * 1024 * 1024 * 5) {
+                alert('max upload size is 5Gb')
+            }
+        });
+        $(':button').on('click', function () {
+            $.ajax({
+                url: '/Home/Upload',
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                data: new FormData($('#fileform')[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                xhr: function () {
+                    var myXhr = $.ajaxSettings.xhr();
+                    if (myXhr.upload) {
+                        myXhr.upload.addEventListener('progress', function (e) {
+                            if (e.lengthComputable) {
+                                $('progress').attr({
+                                    value: e.loaded,
+                                    max: e.total,
+                                });
+                            }
+                        }, false);
+                    }
+                    return myXhr;
+                },
+            });
+        });
+                //$(":button").click(function () {
+                //    var filename = $(":file").val();
+
+                //    $.ajax({
+                //        type: "POST",
+                //        url: "/Home/Upload",
+                //        enctype: 'multipart/form-data',
+                //        data: {
+                //            file: filename
+                //        },
+                //        success: function () {
+                //            alert("Data Uploaded: ");
+                //        }
+                //    });
+                //});
+    </script>
+}
