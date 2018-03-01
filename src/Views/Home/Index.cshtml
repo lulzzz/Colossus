@@ -20,11 +20,12 @@
             <div class="col-xs-12 mt-3 mb-3">
                 <input type="button" class="btn btn-primary" value="Upload">
             </div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+            </div>
         </form>
     </div>
 </div>
-
-<progress></progress>
 @section js{
     <script>
         $(':button').on('click', function () {
@@ -41,10 +42,7 @@
                     if (myXhr.upload) {
                         myXhr.upload.addEventListener('progress', function (e) {
                             if (e.lengthComputable) {
-                                $('progress').attr({
-                                    value: e.loaded,
-                                    max: e.total,
-                                });
+                                $('.progress-bar').css('width', 100 * e.loaded / e.total + '%');
                             }
                         }, false);
                     }
