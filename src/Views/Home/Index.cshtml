@@ -5,7 +5,7 @@
     <h3>Welcome to Aiursoft Colossus</h3>
     <p>Please sign in to access your dashboard.</p>
     <div class="btn-group" role="group">
-        <a class="btn btn-success btn-lg" asp-controller="Apps" asp-action="Index" role="button">
+        <a class="btn btn-primary btn-lg" asp-controller="Apps" asp-action="Index" role="button">
             <i class="fa fa-pencil"></i>
             View my files
         </a>
@@ -18,17 +18,43 @@
             <input type="file" name="file" class="dropify" data-max-file-size="1000M" />
             <p class="help margin-top-10">Only 1000MB max.</p>
             <div class="col-xs-12 mt-3 mb-3">
-                <input type="button" class="btn btn-primary" value="Upload">
+                <input id="uploadButton" type="button" class="btn btn-lg btn-success">
             </div>
-            <div class="progress">
+            <div class="progress mb-3">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
             </div>
+            <p class="text-danger" id="message"></p>
+            <input class="form-control mb-3" type="text" disabled="disabled" value="" id="address" />
         </form>
     </div>
 </div>
 @section js{
     <script>
-        $(':button').on('click', function () {
+        var init = function () {
+            $('.progress-bar').css('width', '0%');
+            $('#uploadButton').removeAttr('disabled');
+            $('#uploadButton').attr('value', 'Upload to share');
+            $('#message').html('');
+            $('#address').hide();
+        }
+        var processing = function () {
+            $('#message').html('Please be patient while we are verifying your file...');
+        }
+        var update = function (e) {
+            if (e.lengthComputable) {
+                $('.progress-bar').css('width', 100 * e.loaded / e.total + '%');
+                $('#message').html(Math.round(e.loaded / e.total * 100) + "%"); 
+                //$('#address').show();
+                if (e.loaded == e.total) {
+                    processing();
+                }
+            }
+
+        }
+        $(':file').on('change', init);
+        $('#uploadButton').on('click', function () {
+            $('#uploadButton').attr('disabled', 'true');
+            $('#uploadButton').attr('value', 'Uploading...');
             $.ajax({
                 url: '/Home/Upload',
                 type: 'POST',
@@ -40,19 +66,17 @@
                 xhr: function () {
                     var myXhr = $.ajaxSettings.xhr();
                     if (myXhr.upload) {
-                        myXhr.upload.addEventListener('progress', function (e) {
-                            if (e.lengthComputable) {
-                                $('.progress-bar').css('width', 100 * e.loaded / e.total + '%');
-                            }
-                        }, false);
+                        myXhr.upload.addEventListener('progress', update, false);
                     }
                     return myXhr;
                 },
                 success: function (value) {
-                    alert(value);
-
+                    init();
+                    $('#address').val(value.value);
+                    $('#address').show();
                 }
             });
         });
+        init();
     </script>
 }
