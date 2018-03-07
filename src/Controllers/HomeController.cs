@@ -13,6 +13,7 @@ namespace Aiursoft.Colossus.Controllers
     [AiurRequireHttps]
     public class HomeController : Controller
     {
+        [AiurForceAuth("", "", justTry: true)]
         public IActionResult Index()
         {
             return View();
