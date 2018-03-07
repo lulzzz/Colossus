@@ -28,7 +28,16 @@
         </form>
     </div>
 </div>
+@section css{
+    <link href="@Values.CdnServerAddress/node_modules/dropify/dist/css/dropify.css" rel="stylesheet">
+}
 @section js{
+    <script src="@Values.CdnServerAddress/node_modules/dropify/dist/js/dropify.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.dropify').dropify();
+        });
+    </script>
     <script>
         var init = function () {
             $('.progress-bar').css('width', '0%');
@@ -43,7 +52,7 @@
         var update = function (e) {
             if (e.lengthComputable) {
                 $('.progress-bar').css('width', 100 * e.loaded / e.total + '%');
-                $('#message').html(Math.round(e.loaded / e.total * 100) + "%"); 
+                $('#message').html(Math.round(e.loaded / e.total * 100) + "%");
                 //$('#address').show();
                 if (e.loaded == e.total) {
                     processing();

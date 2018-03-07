@@ -4,15 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
     <title>@ViewData["Title"] - @Values.ProjectName Colossus</title>
-
     <link rel="icon" type="image/x-icon" href="@Values.CdnServerAddress/favicon.ico">
-    <link href="@Values.CdnServerAddress/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="@Values.CdnServerAddress/node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="@Values.CdnServerAddress/node_modules/dropify/dist/css/dropify.css" rel="stylesheet">
-    <link href="@Values.CdnServerAddress/css/AiurUI.css" rel="stylesheet">
+    <link href="@Values.CdnServerAddress/dist/AiurCore.min.css" rel="stylesheet">
+    <link href="@Values.CdnServerAddress/dist/AiurDashboard.min.css" rel="stylesheet">
+    @RenderSection("css", required: false)
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -81,19 +77,8 @@
             <p>&copy; @DateTime.Now.Year - @Values.ProjectName</p>
         </div>
     </footer>
-
-
-    <script src="@Values.CdnServerAddress/node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="@Values.CdnServerAddress/node_modules/popper.js/dist/umd/popper.min.js"></script>
-    <script src="@Values.CdnServerAddress/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="@Values.CdnServerAddress/node_modules/dropify/dist/js/dropify.js"></script>
-    <script src="@Values.CdnServerAddress/node_modules/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="@Values.CdnServerAddress/node_modules/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('.dropify').dropify();
-        });
-    </script>
+    <script src="@Values.CdnServerAddress/dist/AiurCore.min.js"></script>
+    <script src="@Values.CdnServerAddress/dist/AiurMarket.min.js"></script>
     @RenderSection("js", required: false)
 </body>
 </html>
