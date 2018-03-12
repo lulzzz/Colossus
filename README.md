@@ -1,6 +1,6 @@
 # Aiursoft.Colossus
 
-[![Build Status](https://travis-ci.org/AiursoftWeb/Developer.svg?branch=master)](https://travis-ci.org/AiursoftWeb/Developer)
+[![Build Status](https://travis-ci.org/AiursoftWeb/Colossus.svg?branch=master)](https://travis-ci.org/AiursoftWeb/Colossus)
 
 Colossus is a file uploader and downloader as an OSS example application.
 
