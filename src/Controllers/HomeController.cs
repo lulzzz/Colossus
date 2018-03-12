@@ -19,7 +19,7 @@ namespace Aiursoft.Colossus.Controllers
             return View();
         }
         [HttpPost]
-        [ContainsValidFile]
+        [ContainsValidFile("/")]
         public async Task<IActionResult> Upload()
         {
             var file = Request.Form.Files.First();
