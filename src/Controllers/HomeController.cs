@@ -7,11 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Aiursoft.Colossus.Models;
 using Aiursoft.Pylon.Attributes;
 using System.IO;
+using Aiursoft.Pylon;
 
 namespace Aiursoft.Colossus.Controllers
 {
     [AiurRequireHttps]
-    public class HomeController : Controller
+    public class HomeController : AiurController
     {
         [AiurForceAuth("", "", justTry: true)]
         public IActionResult Index()
