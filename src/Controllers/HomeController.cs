@@ -23,7 +23,7 @@ namespace Aiursoft.Colossus.Controllers
         public async Task<IActionResult> Upload()
         {
             var file = Request.Form.Files.First();
-            var path = await Pylon.Services.StorageService.SaveToOSS(file, Startup.ColossusPublicBucketId);
+            var path = await Pylon.Services.StorageService.SaveToOSS(file, Startup.ColossusPublicBucketId, 30);
             return Json(new
             {
                 message = "Uploaded!",
