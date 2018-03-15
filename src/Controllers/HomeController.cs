@@ -11,7 +11,6 @@ using Aiursoft.Pylon;
 
 namespace Aiursoft.Colossus.Controllers
 {
-    [AiurRequireHttps]
     public class HomeController : AiurController
     {
         [AiurForceAuth("", "", justTry: true)]

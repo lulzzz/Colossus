@@ -13,32 +13,23 @@ using Aiursoft.Colossus.Models;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Aiursoft.Pylon;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Aiursoft.Colossus
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public bool IsDevelopment { get; set; }
         public static int ColossusPublicBucketId { get; set; }
 
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
-            IsDevelopment = env.IsDevelopment();
-            if (IsDevelopment)
-            {
-                Values.ForceRequestHttps = false;
-            }
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<FormOptions>(x =>
-            {
-                x.ValueLengthLimit = int.MaxValue;
-                x.MultipartBodyLengthLimit = int.MaxValue;
-            });
+            services.ConfigureLargeFileUploadable();
             services.AddDbContext<ColossusDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DatabaseConnection")));
 
@@ -63,6 +54,7 @@ namespace Aiursoft.Colossus
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseEnforceHttps();
             }
             app.UseAiursoftSupportedCultures();
             app.UseAiursoftAuthenticationFromConfiguration(Configuration, "Colossus");

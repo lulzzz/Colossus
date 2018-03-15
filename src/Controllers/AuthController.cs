@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace Aiursoft.Colossus.Controllers
 {
-    [AiurRequireHttps]
     public class AuthController : AiurController
     {
         public readonly UserManager<ColossusUser> _userManager;
