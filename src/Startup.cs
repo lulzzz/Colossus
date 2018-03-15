@@ -60,6 +60,7 @@ namespace Aiursoft.Colossus
             app.UseAiursoftAuthenticationFromConfiguration(Configuration, "Colossus");
             app.UseStaticFiles();
             app.UseAuthentication();
+            app.UseLanguageSwitcher();
             app.UseMvcWithDefaultRoute();
         }
     }
