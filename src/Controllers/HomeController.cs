@@ -11,7 +11,7 @@ using Aiursoft.Pylon;
 
 namespace Aiursoft.Colossus.Controllers
 {
-    public class HomeController : AiurController
+    public class HomeController : Controller
     {
         [AiurForceAuth("", "", justTry: true)]
         public IActionResult Index()

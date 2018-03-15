@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Aiursoft.Colossus.Controllers
 {
-    public class AuthController : AiurController
+    public class AuthController : Controller
     {
         public readonly UserManager<ColossusUser> _userManager;
         public readonly SignInManager<ColossusUser> _signInManager;
