@@ -20,7 +20,6 @@ namespace Aiursoft.Colossus
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public static int ColossusPublicBucketId { get; set; }
 
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
@@ -45,7 +44,6 @@ namespace Aiursoft.Colossus
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            ColossusPublicBucketId = Convert.ToInt32(Configuration["ColossusPublicBucketId"]);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

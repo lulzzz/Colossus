@@ -8,22 +8,30 @@ using Aiursoft.Colossus.Models;
 using Aiursoft.Pylon.Attributes;
 using System.IO;
 using Aiursoft.Pylon;
+using Microsoft.Extensions.Configuration;
 
 namespace Aiursoft.Colossus.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IConfiguration _configuration;
+        public HomeController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         [AiurForceAuth("", "", justTry: true)]
         public IActionResult Index()
         {
             return View();
         }
+
         [HttpPost]
         [ContainsValidFile("/")]
         public async Task<IActionResult> Upload()
         {
             var file = Request.Form.Files.First();
-            var path = await Pylon.Services.StorageService.SaveToOSS(file, Startup.ColossusPublicBucketId, 30);
+            var path = await Pylon.Services.StorageService.SaveToOSS(file, Convert.ToInt32(_configuration["ColossusPublicBucketId"]), 30);
             return Json(new
             {
                 message = "Uploaded!",
