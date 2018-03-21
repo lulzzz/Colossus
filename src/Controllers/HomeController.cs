@@ -27,9 +27,13 @@ namespace Aiursoft.Colossus.Controllers
         }
 
         [HttpPost]
-        [ContainsValidFile("/")]
+        [ContainsValidFile]
         public async Task<IActionResult> Upload()
         {
+            if (!ModelState.IsValid)
+            {
+                return Redirect("/");
+            }
             var file = Request.Form.Files.First();
             var path = await Pylon.Services.StorageService.SaveToOSS(file, Convert.ToInt32(_configuration["ColossusPublicBucketId"]), 30);
             return Json(new
