@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Aiursoft.Pylon;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Aiursoft.Pylon.Services;
 
 namespace Aiursoft.Colossus
 {
@@ -37,7 +38,7 @@ namespace Aiursoft.Colossus
                 .AddDefaultTokenProviders();
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-
+            services.AddTransient<AuthService<ColossusUser>>();
             services.AddMvc()
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
         }

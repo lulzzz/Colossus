@@ -3,6 +3,7 @@ using Aiursoft.Colossus.Models;
 using Aiursoft.Pylon;
 using Aiursoft.Pylon.Attributes;
 using Aiursoft.Pylon.Models.ForApps.AddressModels;
+using Aiursoft.Pylon.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -14,18 +15,11 @@ namespace Aiursoft.Colossus.Controllers
 {
     public class AuthController : Controller
     {
-        public readonly UserManager<ColossusUser> _userManager;
-        public readonly SignInManager<ColossusUser> _signInManager;
-        public readonly ColossusDbContext _dbContext;
-
+        private readonly AuthService<ColossusUser> _authService;
         public AuthController(
-            UserManager<ColossusUser> userManager,
-            SignInManager<ColossusUser> signInManager,
-            ColossusDbContext _context)
+            AuthService<ColossusUser> authService)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _dbContext = _context;
+            _authService = authService;
         }
 
         [AiurForceAuth(preferController: "", preferAction: "", justTry: false, register: false)]
@@ -42,7 +36,8 @@ namespace Aiursoft.Colossus.Controllers
 
         public async Task<IActionResult> AuthResult(AuthResultAddressModel model)
         {
-            await AuthProcess.AuthApp(this, model, _userManager, _signInManager);
+            var user = await _authService.AuthApp(model);
+            this.SetClientLang(user.PreferedLanguage);
             return Redirect(model.state);
         }
     }
