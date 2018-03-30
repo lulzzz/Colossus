@@ -56,7 +56,7 @@
                     <li>No download log</li>
                     <li>No one-time link</li>
                 </ul>
-                <a href="javascript:$('body').goTo();" class="btn btn-lg btn-block btn-outline-primary">Upload now</a>
+                <a href="javascript:$('body').top();" class="btn btn-lg btn-block btn-outline-primary">Upload now</a>
             </div>
         </div>
         <div class="card mb-4 box-shadow">
@@ -104,14 +104,6 @@
         });
     </script>
     <script>
-        (function ($) {
-            $.fn.goTo = function () {
-                $('html, body').animate({
-                    scrollTop: $(this).offset().top + 'px'
-                }, 'medium');
-                return this; // for chaining...
-            }
-        })(jQuery);
         var init = function () {
             $('.progress-bar').css('width', '0%');
             $('#uploadButton').removeAttr('disabled');
@@ -119,18 +111,22 @@
             $('#message').html('');
             $('#address').hide();
         }
-        var processing = function () {
-            $('#message').html('Please be patient while we are verifying your file...');
-        }
         var update = function (e) {
             if (e.lengthComputable) {
                 $('.progress-bar').css('width', 100 * e.loaded / e.total + '%');
                 $('#message').html(Math.round(e.loaded / e.total * 100) + "%");
-                //$('#address').show();
                 if (e.loaded == e.total) {
                     processing();
                 }
             }
+        }
+        var processing = function () {
+            $('#message').html('Please be patient while we are verifying your file...');
+        }
+        var finish = function (e) {
+            init();
+            $('#address').val(e.value);
+            $('#address').show();
         }
         $(':file').on('change', init);
         $('#uploadButton').on('click', function () {
@@ -151,11 +147,7 @@
                     }
                     return myXhr;
                 },
-                success: function (value) {
-                    init();
-                    $('#address').val(value.value);
-                    $('#address').show();
-                }
+                success: finish()
             });
         });
         init();
